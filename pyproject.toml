@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "f-lab-python-backend-project-template"
+version = "0.1.0"
+description = ""
+authors = ["ydrah <ydrah@f-lab.kr>"]
+readme = "README.md"
+packages = [{include = "f_lab_python_backend_project_template"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
