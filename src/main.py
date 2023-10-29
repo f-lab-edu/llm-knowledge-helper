@@ -78,15 +78,18 @@ def get_post(post_id: int) -> GetPostResponse:
 
 @app.get("/posts", response_model=List[GetPostResponse], status_code=status.HTTP_200_OK)
 def get_posts() -> List[GetPostResponse]:
-    return [
-        GetPostResponse(
-            id=post.id,
-            title=post.title,
-            content=post.content,
-            created_at=post.created_at,
-        )
-        for post in app.posts.values()
-    ]
+    return sorted(
+        [
+            GetPostResponse(
+                id=post.id,
+                title=post.title,
+                content=post.content,
+                created_at=post.created_at,
+            )
+            for post in app.posts.values()
+        ],
+        key=lambda post: -post.id,
+    )
 
 
 if __name__ == "__main__":
