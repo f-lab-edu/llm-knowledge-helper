@@ -27,4 +27,4 @@ format:
 	poetry run pre-commit run --all-files
 
 tree:
-	tree -a -I '__pycache__|*.pyc|*.pyo|.pytest_cache|.venv|.git|.idea'
+	tree -a -I '__pycache__|*.pyc|*.pyo|.pytest_cache|.venv|.git|.idea|__init__.py'
