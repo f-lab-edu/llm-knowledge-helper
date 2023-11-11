@@ -17,6 +17,7 @@ install-dev:
 	poetry install && poetry run pre-commit install
 
 run:
+	export PYTHONPATH=$PYTHONPATH:$(pwd) &&
 	poetry run python src/main.py
 
 test:
