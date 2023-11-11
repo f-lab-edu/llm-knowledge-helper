@@ -1,6 +1,6 @@
 # f-lab-python-backend-project-template
 
-F-lab Python backend project template
+F-lab에서 사용하는 Python backend project template 입니다.
 
 ## Installation
 
@@ -30,23 +30,6 @@ $ make install-dev
 ```
 
 ### Project structure
-
-```mermaid
-graph LR
-    A[main.py] --> B[apis]
-    A --> C[config.py]
-    A --> D[global_vars.py]
-    A --> E[models]
-    A --> F[repositories]
-    B --> G[common]
-    B --> H[posts]
-    E --> I[post.py]
-    F --> J[post_repository.py]
-    G --> K[health.py]
-    H --> L[create_post.py]
-    H --> M[get_post.py]
-    H --> N[get_posts.py]
-```
 
 ```bash
 .
@@ -82,6 +65,47 @@ graph LR
             ├── test_get_post.py
             └── test_get_posts.py
 ```
+
+### Architecture
+
+```mermaid
+flowchart LR
+    subgraph "API"
+        direction TB
+        router_a["router_a.py"]
+        router_b["router_b.py"]
+        router_c["router_c.py"]
+        router_a -.- router_b -.- router_c
+    end
+    subgraph "Model"
+        direction TB
+        model_a["model_a.py"]
+        model_b["model_b.py"]
+        model_c["model_c.py"]
+        model_a -.- model_b -.- model_c
+    end
+    subgraph "Repository"
+        direction TB
+        repo_a["repository_a.py"]
+        repo_b["repository_b.py"]
+        repo_a -.- repo_b
+    end
+    main.py --> API
+    API --> Model
+    API --> Repository
+    Repository --> Model
+```
+
+- 레이어는 크게 3가지로 나눠집니다.
+  - API 레이어 : API 레이어는 API를 정의하는 레이어입니다.
+  - Model 레이어 : Model 레이어는 데이터를 정의하는 레이어입니다.
+  - Repository 레이어 : Repository 레이어는 데이터를 저장하고 불러오는 레이어입니다.
+- 레이어간 의존성은 항상 한 쪽 방향으로 향해야 합니다. 예를 들면 다음과 같습니다.
+  - API 레이어는 Model과 Repository 레이어에만 의존합니다.
+  - Repository 레이어는 Model 레이어에만 의존합니다.
+  - Model 레이어는 다른 레이어에 의존하지 않습니다.
+- 지금은 레이어드 아키텍처의 일부 예시일 뿐이므로, 필요에 따라 직접 아키텍처를 설계하고 구성해보세요!
+  - 하지만 레이어간 의존성은 항상 한 쪽 방향으로 향해야 한다는 걸 명심해주시길 바랍니다.
 
 ### Testing
 
