@@ -1,3 +1,4 @@
+from fastapi.testclient import TestClient
 from starlette import status
 
 from src.global_vars import post_repository
@@ -5,7 +6,7 @@ from src.models.post import Post
 
 
 # `GET /posts` API가 성공적으로 동작한다.
-def test_get_posts_successfully(client):
+def test_get_posts_successfully(client: TestClient):
     # given
     # 서버 내에 Post 데이터가 저장되어 있다.
     post_repository.add(

@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import APIRouter, status
 
 from src.apis.posts import create_post, get_posts
@@ -12,7 +10,7 @@ post_router.add_api_route(
     methods=["GET"],
     path="/",
     endpoint=get_posts.handler,
-    response_model=List[GetPostResponse],
+    response_model=list[GetPostResponse],
     status_code=status.HTTP_200_OK,
 )
 

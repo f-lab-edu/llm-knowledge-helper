@@ -1,3 +1,4 @@
+from fastapi.testclient import TestClient
 from starlette import status
 
 from src.global_vars import post_repository
@@ -5,7 +6,7 @@ from src.models.post import Post
 
 
 # `GET /posts/{post_id}` API가 성공적으로 동작한다.
-def test_get_post_successfully(client):
+def test_get_post_successfully(client: TestClient):
     # given
     # 서버 내에 Post 데이터가 저장되어 있다.
     post_repository.add(
@@ -35,7 +36,7 @@ def test_get_post_successfully(client):
 
 
 # `GET /posts/{post_id}` API가 존재하지 않는 Post ID에 대해서는 404를 응답한다.
-def test_get_post_with_non_existing_post_id(client):
+def test_get_post_with_non_existing_post_id(client: TestClient):
     # given
     # 존재하지 않는 Post ID가 주어졌다.
     post_id = 0

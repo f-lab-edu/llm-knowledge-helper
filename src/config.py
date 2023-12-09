@@ -7,7 +7,7 @@ class Config:
     timezone: str = "Asia/Tokyo"
 
     @property
-    def zone_info(self):
+    def zone_info(self) -> ZoneInfo:
         return ZoneInfo(self.timezone)
 
 

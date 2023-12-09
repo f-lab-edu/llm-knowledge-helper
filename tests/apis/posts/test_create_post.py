@@ -1,3 +1,4 @@
+from fastapi.testclient import TestClient
 from starlette import status
 
 from src.global_vars import post_repository
@@ -5,7 +6,7 @@ from src.models.post import Post
 
 
 # `POST /posts/{post_id}` API가 성공적으로 동작한다.
-def test_create_post_successfully(client):
+def test_create_post_successfully(client: TestClient):
     # when
     # `POST /posts/{post_id}` API를 호출한다.
     response = client.post(

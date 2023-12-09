@@ -1,10 +1,8 @@
-from typing import List
-
 from src.apis.posts.get_post import GetPostResponse
 from src.global_vars import post_repository
 
 
-def handler() -> List[GetPostResponse]:
+def handler() -> list[GetPostResponse]:
     return sorted(
         [
             GetPostResponse(

@@ -1,7 +1,8 @@
 from fastapi import status
+from fastapi.testclient import TestClient
 
 
-def test_health_successfully(client):
+def test_health_successfully(client: TestClient):
     # when
     response = client.get("/health")
 

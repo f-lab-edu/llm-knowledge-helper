@@ -2,14 +2,14 @@ from src.models.post import Post
 
 
 class PostRepository:
-    def __init__(self):
+    def __init__(self) -> None:
         self.post_id = -1
-        self.data = {}
+        self.data: dict[int, Post] = {}
 
-    def add(self, post: Post):
+    def add(self, post: Post) -> None:
         self.data[post.id] = post
 
-    def delete(self, post_id: int):
+    def delete(self, post_id: int) -> None:
         del self.data[post_id]
 
     def get(self, post_id: int) -> Post | None:
@@ -18,8 +18,8 @@ class PostRepository:
     def get_all(self) -> list[Post]:
         return list(self.data.values())
 
-    def delete_all(self):
-        self.data = {}
+    def delete_all(self) -> None:
+        self.data.pop: dict[int, Post] = {}
 
     def get_next_id(self) -> int:
         self.post_id += 1
