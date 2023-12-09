@@ -12,13 +12,13 @@ F-lab에서 사용하는 Python backend project template 입니다.
 ### Install dependencies
 
 ```bash
-$ make install
+make install
 ```
 
 ## Usage
 
 ```bash
-$ make run
+make run
 ```
 
 ## Development
@@ -26,7 +26,7 @@ $ make run
 ### Install dependencies
 
 ```bash
-$ make install-dev
+make install-dev
 ```
 
 ### Project structure
@@ -110,7 +110,7 @@ flowchart LR
 ### Testing
 
 ```bash
-$ make test
+make test
 ```
 
 ### Others
