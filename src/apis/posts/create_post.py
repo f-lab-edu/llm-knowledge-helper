@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from pydantic import BaseModel
 
@@ -15,7 +15,7 @@ class CreatePostResponse(BaseModel):
     id: int
     title: str
     content: str
-    created_at: datetime
+    created_at: datetime.datetime
 
 
 def handler(request: CreatePostRequest) -> CreatePostResponse:

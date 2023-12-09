@@ -1,8 +1,8 @@
-from dataclasses import dataclass
+import dataclasses
 from zoneinfo import ZoneInfo
 
 
-@dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True)
 class Config:
     timezone: str = "Asia/Tokyo"
 

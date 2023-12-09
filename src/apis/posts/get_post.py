@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from fastapi import HTTPException
 from pydantic import BaseModel
@@ -11,7 +11,7 @@ class GetPostResponse(BaseModel):
     id: int
     title: str
     content: str
-    created_at: datetime
+    created_at: datetime.datetime
 
 
 def handler(post_id: int) -> GetPostResponse:
