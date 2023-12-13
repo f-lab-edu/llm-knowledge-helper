@@ -1,14 +1,10 @@
-import dataclasses
-from zoneinfo import ZoneInfo
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
-@dataclasses.dataclass(frozen=True)
-class Config:
-    timezone: str = "Asia/Tokyo"
-
-    @property
-    def zone_info(self) -> ZoneInfo:
-        return ZoneInfo(self.timezone)
+class DatabaseConfig(BaseSettings):
+    url: str = Field(default="sqlite://./db.sqlite3", alias="DATABASE_URL")
+    echo: bool = Field(default=False, alias="DATABASE_ECHO")
 
 
-config = Config()
+db = DatabaseConfig()

@@ -1,12 +1,14 @@
-from fastapi.testclient import TestClient
-from starlette import status
+import datetime
 
-from src.global_vars import post_repository
+from fastapi import status
+from fastapi.testclient import TestClient
+from sqlmodel import Session
+
 from src.models.post import Post
 
 
 # `POST /posts/{post_id}` API가 성공적으로 동작한다.
-def test_create_post_successfully(client: TestClient):
+def test_create_post_successfully(client: TestClient, session: Session):
     # when
     # `POST /posts/{post_id}` API를 호출한다.
     response = client.post(
@@ -24,16 +26,15 @@ def test_create_post_successfully(client: TestClient):
     # 응답 본문이 예상한 형식과 같아야 한다.
     data = response.json()
     assert data == {
-        "id": 0,
+        "id": 1,
         "title": "title",
         "content": "content",
         "created_at": data["created_at"],
     }
 
     # 서버 내에 Post 데이터가 저장되어 있어야 한다.
-    assert post_repository.get(post_id=0) == Post(
-        id=0,
-        title="title",
-        content="content",
-        created_at=data["created_at"],
-    )
+    post = session.get(Post, 1)
+    assert post.id == 1
+    assert post.title == "title"
+    assert post.content == "content"
+    assert post.created_at == datetime.datetime.fromisoformat(data["created_at"])

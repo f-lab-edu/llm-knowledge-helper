@@ -1,12 +1,10 @@
 import datetime
 
-from pydantic import BaseModel
-
-from src.config import config
+from sqlmodel import Field, SQLModel
 
 
-class Post(BaseModel):
-    id: int
-    title: str
-    content: str
-    created_at: datetime.datetime = datetime.datetime.now(tz=config.zone_info)
+class Post(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    title: str = Field(min_length=1, max_length=100)
+    content: str = Field(max_length=500)
+    created_at: datetime.datetime = Field(default_factory=datetime.datetime.now)

@@ -1,8 +1,11 @@
 import datetime
+from typing import Annotated
 
+from fastapi import Depends
 from pydantic import BaseModel
+from sqlmodel import Session
 
-from src.global_vars import post_repository
+from src.apis.dependencies import get_session
 from src.models.post import Post
 
 
@@ -18,14 +21,16 @@ class CreatePostResponse(BaseModel):
     created_at: datetime.datetime
 
 
-def handler(request: CreatePostRequest) -> CreatePostResponse:
-    post_id = post_repository.get_next_id()
+def handler(
+    request: CreatePostRequest, session: Annotated[Session, Depends(get_session)]
+) -> CreatePostResponse:
     post = Post(
-        id=post_id,
         title=request.title,
         content=request.content,
     )
-    post_repository.add(post)
+    session.add(post)
+    session.commit()
+    session.refresh(post)
     return CreatePostResponse(
         id=post.id, title=post.title, content=post.content, created_at=post.created_at
     )

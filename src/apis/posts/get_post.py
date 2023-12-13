@@ -1,10 +1,12 @@
 import datetime
+from typing import Annotated
 
-from fastapi import HTTPException
+from fastapi import Depends, HTTPException, status
 from pydantic import BaseModel
-from starlette import status
+from sqlmodel import Session
 
-from src.global_vars import post_repository
+from src.apis.dependencies import get_session
+from src.models.post import Post
 
 
 class GetPostResponse(BaseModel):
@@ -14,9 +16,11 @@ class GetPostResponse(BaseModel):
     created_at: datetime.datetime
 
 
-def handler(post_id: int) -> GetPostResponse:
-    post = post_repository.get(post_id)
-    if not post:
+def handler(
+    post_id: int, session: Annotated[Session, Depends(get_session)]
+) -> GetPostResponse:
+    post = session.get(Post, post_id)
+    if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     return GetPostResponse(
         id=post.id,
