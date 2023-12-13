@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = {extras = ["all"], version = "^0.104.0"}
+sqlmodel = "^0.0.14"
 
 
 [tool.poetry.group.dev.dependencies]
