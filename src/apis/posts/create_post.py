@@ -3,7 +3,7 @@ from typing import Annotated
 
 from fastapi import Depends
 from pydantic import BaseModel
-from sqlmodel import Session
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.apis.dependencies import get_session
 from src.models.post import Post
@@ -21,16 +21,16 @@ class CreatePostResponse(BaseModel):
     created_at: datetime.datetime
 
 
-def handler(
-    request: CreatePostRequest, session: Annotated[Session, Depends(get_session)]
+async def handler(
+    request: CreatePostRequest, session: Annotated[AsyncSession, Depends(get_session)]
 ) -> CreatePostResponse:
     post = Post(
         title=request.title,
         content=request.content,
     )
     session.add(post)
-    session.commit()
-    session.refresh(post)
+    await session.commit()
+    await session.refresh(post)
     return CreatePostResponse(
         id=post.id, title=post.title, content=post.content, created_at=post.created_at
     )

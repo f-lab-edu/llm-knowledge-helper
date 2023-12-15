@@ -1,15 +1,18 @@
 from typing import Annotated
 
 from fastapi import Depends
-from sqlmodel import Session, select
+from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.apis.dependencies import get_session
 from src.apis.posts.get_post import GetPostResponse
 from src.models.post import Post
 
 
-def handler(session: Annotated[Session, Depends(get_session)]) -> list[GetPostResponse]:
-    posts = session.exec(select(Post)).all()
+async def handler(
+    session: Annotated[AsyncSession, Depends(get_session)]
+) -> list[GetPostResponse]:
+    posts = (await session.exec(select(Post))).all()
     return sorted(
         [
             GetPostResponse(

@@ -1,12 +1,14 @@
+import pytest
 from fastapi import status
-from fastapi.testclient import TestClient
-from sqlmodel import Session
+from httpx import AsyncClient
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.models.post import Post
 
 
 # `GET /posts` API가 성공적으로 동작한다.
-def test_get_posts_successfully(client: TestClient, session: Session):
+@pytest.mark.asyncio
+async def test_get_posts_successfully(client: AsyncClient, session: AsyncSession):
     # given
     # 서버 내에 여러 개의 Post 데이터가 저장되어 있다.
     post_1 = Post(
@@ -18,13 +20,13 @@ def test_get_posts_successfully(client: TestClient, session: Session):
         content="content 2",
     )
     session.add_all([post_1, post_2])
-    session.commit()
-    session.refresh(post_1)
-    session.refresh(post_2)
+    await session.commit()
+    await session.refresh(post_1)
+    await session.refresh(post_2)
 
     # when
     # `GET /posts` API를 호출한다.
-    response = client.get("/posts")
+    response = await client.get("/posts")
 
     # then
     # 응답 상태 코드가 200이어야 한다.

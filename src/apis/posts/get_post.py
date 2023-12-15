@@ -3,7 +3,7 @@ from typing import Annotated
 
 from fastapi import Depends, HTTPException, status
 from pydantic import BaseModel
-from sqlmodel import Session
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.apis.dependencies import get_session
 from src.models.post import Post
@@ -16,10 +16,10 @@ class GetPostResponse(BaseModel):
     created_at: datetime.datetime
 
 
-def handler(
-    post_id: int, session: Annotated[Session, Depends(get_session)]
+async def handler(
+    post_id: int, session: Annotated[AsyncSession, Depends(get_session)]
 ) -> GetPostResponse:
-    post = session.get(Post, post_id)
+    post = await session.get(Post, post_id)
     if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     return GetPostResponse(

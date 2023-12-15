@@ -5,13 +5,14 @@ from fastapi import FastAPI
 
 from src.apis.common import common_router
 from src.apis.posts import post_router
-from src.database import create_db_and_tables
+from src.database import close_db, create_db_and_tables
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    create_db_and_tables()
+    await create_db_and_tables()
     yield
+    await close_db()
 
 
 app = FastAPI(lifespan=lifespan)

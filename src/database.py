@@ -1,8 +1,9 @@
-from sqlmodel import SQLModel, create_engine, pool
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlmodel import SQLModel, pool
 
 from src import config
 
-engine = create_engine(
+engine = create_async_engine(
     url=config.db.url,
     echo=config.db.echo,
     connect_args={
@@ -12,5 +13,10 @@ engine = create_engine(
 )
 
 
-def create_db_and_tables() -> None:
-    SQLModel.metadata.create_all(engine)
+async def create_db_and_tables() -> None:
+    async with engine.begin() as conn:
+        await conn.run_sync(SQLModel.metadata.create_all)
+
+
+async def close_db() -> None:
+    await engine.dispose()

@@ -1,17 +1,19 @@
 import datetime
 
+import pytest
 from fastapi import status
-from fastapi.testclient import TestClient
-from sqlmodel import Session
+from httpx import AsyncClient
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.models.post import Post
 
 
 # `POST /posts/{post_id}` API가 성공적으로 동작한다.
-def test_create_post_successfully(client: TestClient, session: Session):
+@pytest.mark.asyncio
+async def test_create_post_successfully(client: AsyncClient, session: AsyncSession):
     # when
     # `POST /posts/{post_id}` API를 호출한다.
-    response = client.post(
+    response = await client.post(
         "/posts",
         json={
             "title": "title",
@@ -33,7 +35,7 @@ def test_create_post_successfully(client: TestClient, session: Session):
     }
 
     # 서버 내에 Post 데이터가 저장되어 있어야 한다.
-    post = session.get(Post, 1)
+    post = await session.get(Post, 1)
     assert post.id == 1
     assert post.title == "title"
     assert post.content == "content"

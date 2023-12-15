@@ -1,25 +1,20 @@
-from fastapi.testclient import TestClient
-from pytest import fixture
-from sqlmodel import Session, SQLModel
+import pytest_asyncio
+from httpx import AsyncClient
+from sqlmodel.ext.asyncio.session import AsyncSession
 
-from src.database import engine
+from src.database import close_db, create_db_and_tables, engine
 from src.main import app
 
 
-@fixture(scope="session")
-def client() -> TestClient:
-    with TestClient(app) as client:
+@pytest_asyncio.fixture(scope="function")
+async def client() -> AsyncClient:
+    async with AsyncClient(app=app, base_url="http://127.0.0.1:8000") as client:
+        await create_db_and_tables()
         yield client
+        await close_db()
 
 
-@fixture(scope="session")
-def session() -> Session:
-    with Session(engine) as session:
+@pytest_asyncio.fixture(scope="function")
+async def session() -> AsyncSession:
+    async with AsyncSession(engine) as session:
         yield session
-
-
-@fixture(autouse=True)
-def setup_and_teardown_db():
-    SQLModel.metadata.create_all(bind=engine)
-    yield
-    SQLModel.metadata.drop_all(bind=engine)
