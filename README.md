@@ -110,6 +110,12 @@ flowchart LR
 make test
 ```
 
+### How to build
+
+```bash
+make build
+```
+
 ### Others
 
 - 파이썬 포매팅 도구로 [black](https://github.com/psf/black), [isort](https://github.com/PyCQA/isort) 그리고 [pycln](https://github.com/hadialqattan/pycln)을 사용합니다.

@@ -25,5 +25,8 @@ test:
 format:
 	poetry run pre-commit run --all-files
 
+build:
+	docker build -t f-lab-python-backend-example:latest .
+
 tree:
 	tree -a -I '__pycache__|*.pyc|*.pyo|.pytest_cache|.venv|.git|.idea|__init__.py'
