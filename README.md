@@ -2,7 +2,7 @@
 
 F-lab에서 사용하는 Python backend project template 입니다.
 
-## Installation
+## How to install
 
 ### Pre-requisites
 
@@ -15,13 +15,13 @@ F-lab에서 사용하는 Python backend project template 입니다.
 make install
 ```
 
-## Usage
+## How to run
 
 ```bash
 make run
 ```
 
-## Development
+## How to develop
 
 ### Install dependencies
 
@@ -33,34 +33,33 @@ make install-dev
 
 ```bash
 .
-├── .gitignore    # git에서 제외할 파일들을 담은 파일
-├── .pre-commit-config.yaml    # pre-commit 설정 파일
-├── Makefile    # 프로젝트 실행과 관련된 명령어들을 담은 파일
-├── README.md    # 프로젝트 문서 파일
-├── poetry.lock    # Poetry가 생성한 파일
-├── pyproject.toml    # 프로젝트 설정 파일
-├── src    # 소스 파일들
-│   ├── apis    # API 레이어에 속하는 모듈 파일들
-│   │   ├── common    # 공통 API 모듈 파일들
+├── .gitignore                     # git에서 제외할 파일들을 담은 파일
+├── .pre-commit-config.yaml        # pre-commit 설정 파일
+├── Dockerfile                     # Docker image를 생성하는 파일
+├── Makefile                       # 프로젝트와 관련된 명령어들을 담은 파일
+├── README.md                      # 프로젝트 문서 파일
+├── poetry.lock                    # Poetry가 생성한 파일
+├── pyproject.toml                 # 프로젝트 설정 파일
+├── src                            # 소스 파일들
+│   ├── apis                       # API Layer에 속하는 모듈 파일들
+│   │   ├── common                 # 공통 API 모듈 파일들
 │   │   │   └── health.py
-│   │   └── posts    # 게시글 API 모듈 파일들
+│   │   ├── dependencies.py        # API Layer에 속하는 모듈들의 의존성을 담은 파일
+│   │   └── posts                  # 게시글 API 모듈 파일들
 │   │       ├── create_post.py
 │   │       ├── get_post.py
 │   │       └── get_posts.py
-│   ├── config.py    # 프로젝트 설정과 관련된 파일
-│   ├── global_vars.py    # 프로젝트 전역 변수들을 담은 파일
-│   ├── main.py    # 프로젝트의 시작 로직을 담은 파일
-│   ├── models    # 모델 레이어에 속하는 모듈 파일들
+│   ├── config.py                  # 프로젝트 설정과 관련된 파일
+│   ├── database.py                # 데이터베이스와 관련된 파일
+│   ├── main.py                    # 프로젝트의 시작 로직을 담은 파일
+│   ├── models                     # 모델 Layer에 속하는 모듈 파일들
 │   │   └── post.py
-│   └── repositories    # 레포지토리 레이어에 속하는 모듈 파일들
-│       └── post_repository.py
-└── tests    # 테스트 파일들
-    └── apis    # API 레이어에 속하는 모듈을 테스트 하는 파일들
-        ├── common    # 공통 API 모듈을 테스트 하는 파일들
+└── tests                          # 테스트 파일들
+    └── apis                       # API Layer에 속하는 모듈을 테스트 하는 파일들
+        ├── common                 # 공통 API 모듈을 테스트 하는 파일들
         │   └── test_health.py
-        ├── conftest.py    # 테스트에 필요한 공통 설정을 담은 파일
-        └── posts    # 게시글 API 모듈을 테스트 하는 파일들
-            ├── conftest.py
+        ├── conftest.py            # 테스트에 필요한 공통 설정을 담은 파일
+        └── posts                  # 게시글 API 모듈을 테스트 하는 파일들
             ├── test_create_post.py
             ├── test_get_post.py
             └── test_get_posts.py
@@ -84,30 +83,28 @@ flowchart LR
         model_c["model_c.py"]
         model_a -.- model_b -.- model_c
     end
-    subgraph "Repository"
+    subgraph "Persistence"
         direction TB
-        repo_a["repository_a.py"]
-        repo_b["repository_b.py"]
-        repo_a -.- repo_b
+        database["database.py"]
     end
     main.py --> API
     API --> Model
-    API --> Repository
-    Repository --> Model
+    API --> Persistence
+    Persistence --> Model
 ```
 
-- 레이어는 크게 3가지로 나눠집니다.
-  - API 레이어 : API 레이어는 API를 정의하는 레이어입니다.
-  - Model 레이어 : Model 레이어는 데이터를 정의하는 레이어입니다.
-  - Repository 레이어 : Repository 레이어는 데이터를 저장하고 불러오는 레이어입니다.
-- 레이어간 의존성은 항상 한 쪽 방향으로 향해야 합니다. 예를 들면 다음과 같습니다.
-  - API 레이어는 Model과 Repository 레이어에만 의존합니다.
-  - Repository 레이어는 Model 레이어에만 의존합니다.
-  - Model 레이어는 다른 레이어에 의존하지 않습니다.
-- 지금은 레이어드 아키텍처의 일부 예시일 뿐이므로, 필요에 따라 직접 아키텍처를 설계하고 구성해보세요!
-  - 하지만 레이어간 의존성은 항상 한 쪽 방향으로 향해야 한다는 걸 명심해주시길 바랍니다.
+- Layer는 크게 3가지로 나눠집니다.
+  - API Layer : API Layer는 API를 정의하는 Layer입니다.
+  - Model Layer : Model Layer는 데이터를 정의하는 Layer입니다.
+  - Persistence Layer : Persistence Layer는 데이터를 저장하는 Layer입니다.
+- Layer간 의존성은 항상 한 쪽 방향으로 향해야 합니다. 예를 들면 다음과 같습니다.
+  - API Layer는 Model과 Persistence Layer에만 의존합니다.
+  - Persistence Layer는 Model Layer에만 의존합니다.
+  - Model Layer는 다른 Layer에 의존하지 않습니다.
+- 지금은 Layerd 아키텍처의 일부 예시일 뿐이므로, 필요에 따라 직접 아키텍처를 설계하고 구성해보세요!
+  - 하지만 Layer간 의존성은 항상 한 쪽 방향으로 향해야 한다는 걸 명심해주시길 바랍니다.
 
-### Testing
+### How to test
 
 ```bash
 make test
