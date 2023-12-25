@@ -21,6 +21,23 @@ make install
 make run
 ```
 
+## Environment variables
+
+Configuration values can be adjusted by specifying environment variables.
+
+| Name | Description             | Default                  |
+| --- |-------------------------|--------------------------|
+| `WEB_HOST` | Web server host         | `0.0.0.0`                |
+| `WEB_PORT` | Web server port         | `8000`                   |
+| `DATABASE_URL` | Database SQLAlchemy URL | `sqlite:///./db.sqlite3` |
+| `DATABASE_ECHO` | Database echo flag      | `True`                   |
+| `CORS_ORIGINS` | CORS origins            | `*`                      |
+| `CORS_CREDENTIALS` | CORS credentials flag   | `True`                   |
+| `CORS_METHODS` | CORS methods            | `*`                      |
+| `CORS_HEADERS` | CORS headers            | `*`                      |
+
+The codes for this can be [found in `config.py`](./src/config.py).
+
 ## How to develop
 
 ### Install dependencies
