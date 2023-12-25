@@ -23,7 +23,7 @@ make run
 
 ## Environment variables
 
-Configuration values can be adjusted by specifying environment variables.
+환경 변수를 지정하여 구성 값을 조정할 수 있습니다.
 
 | Name | Description             | Default                  |
 | --- |-------------------------|--------------------------|
@@ -36,7 +36,10 @@ Configuration values can be adjusted by specifying environment variables.
 | `CORS_METHODS` | CORS methods            | `*`                      |
 | `CORS_HEADERS` | CORS headers            | `*`                      |
 
-The codes for this can be [found in `config.py`](./src/config.py).
+앱은 `.env` 파일 또한 지원합니다.
+프로젝트 최상단 경로에 `.env` 파일을 작성하여 필요한 환경 변수를 로드할 수 있습니다.
+
+관련 코드는 [`config.py`](./src/config.py)에서 확인할 수 있습니다.
 
 ## How to develop
 
