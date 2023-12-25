@@ -14,5 +14,11 @@ class CORSConfig(BaseSettings):
     headers: str = Field(default="*", alias="CORS_HEADERS")
 
 
+class WebConfig(BaseSettings):
+    host: str = Field(default="0.0.0.0", alias="WEB_HOST")
+    port: int = Field(default=8000, alias="WEB_PORT")
+
+
 db = DatabaseConfig()
 cors = CORSConfig()
+web = WebConfig()
