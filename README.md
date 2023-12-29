@@ -37,7 +37,20 @@ make run
 | `CORS_HEADERS` | CORS headers            | `*`                      |
 
 앱은 `.env` 파일 또한 지원합니다.
-프로젝트 최상단 경로에 `.env` 파일을 작성하여 필요한 환경 변수를 로드할 수 있습니다.
+다음처럼 프로젝트 최상단 경로에 `.env` 파일을 작성하여 필요한 환경 변수를 로드할 수 있습니다.
+
+```bash
+# .env
+
+WEB_HOST="0.0.0.0"
+WEB_PORT="8000"
+DATABASE_URL="sqlite:///./db.sqlite3"
+DATABASE_ECHO="True"
+CORS_ORIGINS="*"
+CORS_CREDENTIALS="True"
+CORS_METHODS="*"
+CORS_HEADERS="*"
+```
 
 관련 코드는 [`config.py`](./src/config.py)에서 확인할 수 있습니다.
 
