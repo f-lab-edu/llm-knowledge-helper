@@ -9,6 +9,7 @@ class DatabaseConfig(BaseSettings):
     sync_url: str = Field(default=os.getenv("SYNC_DATABASE_URL"), alias="SYNC_DATABASE_URL")
     echo: bool = Field(default=True, alias="DATABASE_ECHO")
 
+
 class CORSConfig(BaseSettings):
     origins: str = Field(default="*", alias="CORS_ORIGINS")
     credentials: bool = Field(default=True, alias="CORS_CREDENTIALS")
